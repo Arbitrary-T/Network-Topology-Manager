@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-
+import utility.IntField;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 /**
@@ -22,10 +22,10 @@ public class ClientGUIT extends JFrame
     private JButton nFilterJButton;
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     private JPanel eastJPanel;
-    private JTextField networkIDTextField = new JTextField();
-    private JTextField numberOfNodesTextField = new JTextField();
-    private JTextField numberOfHubsTextField = new JTextField();
-    private JTextField numberOfSwitchesTextField = new JTextField();
+    private IntField networkIDTextField = new IntField();
+    private IntField numberOfNodesTextField = new IntField();
+    private IntField numberOfHubsTextField = new IntField();
+    private IntField numberOfSwitchesTextField = new IntField();
     private JTextField topologyStructureTextField = new JTextField();
     private JTextField countryTextField = new JTextField();
     private JTextField statusTextField = new JTextField();
@@ -48,7 +48,6 @@ public class ClientGUIT extends JFrame
         super();
         mainFrame = this;
         BorderLayout mainBorderLayout = new BorderLayout();
-
         setTitle("Network Topology Manager");
         mainBorderLayout.setVgap(5);
 
@@ -112,18 +111,23 @@ public class ClientGUIT extends JFrame
         northJPanel.add(nFilterJLabel, BorderLayout.WEST);
         northJPanel.add(nFilterJButton, BorderLayout.EAST);
     }
+
     private void initialiseEastRegion()
     {
+        String toolTip = "This field only accepts integers!";
         JPanel nestedNorthJPanel = new JPanel();
         JPanel nestedSouthJPanel = new JPanel();
 
         eastJPanel = new JPanel();
         saveData = new JButton("Save");
-
         clearFields = new JButton("Clear");
         printTable = new JButton("Print");
-        BoxLayout verticalBoxLayout = new BoxLayout(nestedNorthJPanel, BoxLayout.Y_AXIS);
+        networkIDTextField.setToolTipText(toolTip);
+        numberOfHubsTextField.setToolTipText(toolTip);
+        numberOfNodesTextField.setToolTipText(toolTip);
+        numberOfSwitchesTextField.setToolTipText(toolTip);
 
+        BoxLayout verticalBoxLayout = new BoxLayout(nestedNorthJPanel, BoxLayout.Y_AXIS);
         BorderLayout mainPanelLayout = new BorderLayout();
 
         nestedNorthJPanel.setLayout(verticalBoxLayout);
@@ -160,40 +164,5 @@ public class ClientGUIT extends JFrame
         eastJPanel.setPreferredSize(new Dimension((int)(this.getWidth()/4.5), 0));
         eastJPanel.add(nestedNorthJPanel, BorderLayout.NORTH);
         eastJPanel.add(nestedSouthJPanel, BorderLayout.SOUTH);
-
-
-
-    }
-    private void initialiseSouthRegion()
-    {
-        southPanel = new JPanel();
-
-        addButton = new JButton("Add row");
-        addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loadButton = new JButton("Load Database");
-        loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        deleteButton = new JButton("Delete row");
-        deleteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        southPanel.add(addButton);
-        southPanel.add(loadButton);
-        southPanel.add(deleteButton);
-    }
-    private Component q()
-    {
-        JPanel test = new JPanel();
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        test.setLayout(new GridBagLayout());
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        test.add(saveData, gridBagConstraints);
-
-        gridBagConstraints.gridx++;
-        test.add(clearFields, gridBagConstraints);
-
-        gridBagConstraints.gridx++;
-        test.add(printTable, gridBagConstraints);
-        return test;
     }
 }
