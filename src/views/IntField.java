@@ -1,6 +1,4 @@
-package utility;
-
-import javafx.application.Platform;
+package views;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -10,7 +8,7 @@ import javax.swing.text.*;
  */
 public class IntField extends JTextField
 {
-    public IntField( )
+    public IntField()
     {
         super("");
     }
@@ -61,7 +59,7 @@ public class IntField extends JTextField
             }
             catch (NumberFormatException e)
             {
-
+                //System.err.println(e.toString());
             }
         }
     }

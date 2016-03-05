@@ -1,4 +1,5 @@
-import views.ClientGUIT;
+import controllers.MainViewController;
+import views.MainView;
 
 import javax.swing.*;
 
@@ -16,19 +17,19 @@ public class MainController
         catch (Exception e)
         {
         }
-
-        new ClientGUIT();
+        MainView a = new MainView();
+        new MainViewController(a);
     }
 }
 /*
-try {
-    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-            UIManager.setLookAndFeel(info.getClassName());
-            break;
+ try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
         }
-    }
-} catch (Exception e) {
-    // If Nimbus is not available, you can set the GUI to another look and feel.
-}
  */
