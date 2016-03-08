@@ -10,7 +10,7 @@ public class IntField extends JTextField
 {
     public IntField()
     {
-        super("");
+        super();
     }
 
     protected Document createDefaultModel()
@@ -54,12 +54,11 @@ public class IntField extends JTextField
             String newString = oldString.substring(0, offs) + str + oldString.substring(offs);
             try
             {
-                Integer.parseInt(newString + "0");
+                Integer.parseInt(newString);
                 super.insertString(offs, str, attributeSet);
             }
             catch (NumberFormatException e)
             {
-                //System.err.println(e.toString());
             }
         }
     }

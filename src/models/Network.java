@@ -1,10 +1,14 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  * Created by arbitrary on 2/11/16.
  */
-public class Network
+public class Network implements Serializable
+
 {
+    private static final long serialVersionUID = 50L;
     private int id;
     private int nodes;
     private int hubs;

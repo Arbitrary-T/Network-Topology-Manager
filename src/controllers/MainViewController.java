@@ -1,11 +1,13 @@
 package controllers;
 
+import models.Connection;
 import models.MainViewListener;
+import models.Network;
+import views.IntField;
 import views.MainView;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.print.PrinterException;
 
 /**
  * Created by T on 05/03/2016.
@@ -13,41 +15,83 @@ import java.awt.event.*;
 public class MainViewController implements MainViewListener
 {
     private MainView mainView;
+    private Connection clientConnection;
 
-    public MainViewController(MainView mainView)    //model as well
+    public MainViewController(MainView mainView, Connection clientConnection)    //model as well
     {
         this.mainView = mainView;
-        mainView.activateAgent(this);
+        this.clientConnection = clientConnection;
+        this.mainView.activateAgent(this);
+        clientConnection.setData("Refresh", null);
+        mainView.setNetworkListAdapterListModel(clientConnection.getData());
     }
 
     @Override
     public void onClearButtonClick(JTextField[] textFields)
     {
-        for(int i = 0; i< textFields.length; i++)
+        for (JTextField textField : textFields)
         {
-            textFields[i].setText("");
+            textField.setText("");
         }
     }
 
     @Override
-    public void onSaveButtonClick() {
-
+    public void onSaveButtonClick(JTextField[] textFields)
+    {
+        Network userInput = networkObjectParser(textFields);
+        if(clientConnection.getSocket() != null && userInput != null )
+        {
+            clientConnection.setData("Add", userInput);
+            mainView.setNetworkListAdapterListModel(clientConnection.getData());
+        }
     }
 
     @Override
-    public void onDeleteButtonClick() {
-
+    public void onDeleteButtonClick(JTextField[] textFields)
+    {
+        Network userInput = networkObjectParser(textFields);
+        if(clientConnection.getSocket() != null && userInput != null )
+        {
+            clientConnection.setData("Delete", userInput);
+            mainView.setNetworkListAdapterListModel(clientConnection.getData());
+            onClearButtonClick(textFields);
+        }
     }
 
     @Override
-    public void onPrintButtonClick() {
-
+    public void onPrintButtonClick(JTable contextTable)
+    {
+        try
+        {
+            contextTable.print();
+        }
+        catch (PrinterException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onTableFocusChange() {
 
     }
+    private Network networkObjectParser(JTextField[] textFields)
+    {
+        for(JTextField textField : textFields)
+        {
+            if(textField.getText().isEmpty())
+            {
+                mainView.alertMessage("Invalid Input!", "You must provide input to all fields before saving!");
+                return null;
+            }
+        }
+        IntField networkID = (IntField) textFields[0];
+        IntField numberOfNodes = (IntField) textFields[1];
+        IntField numberOfHubs = (IntField) textFields[2];
+        IntField numberOfSwitches = (IntField) textFields[3];
+        return new Network(networkID.getValue(), numberOfNodes.getValue(),numberOfHubs.getValue(),numberOfSwitches.getValue(), textFields[4].getText(),textFields[5].getText(), textFields[6].getText());
+    }
+
 }
 
 /*

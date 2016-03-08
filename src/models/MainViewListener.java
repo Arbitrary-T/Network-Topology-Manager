@@ -8,8 +8,8 @@ import javax.swing.*;
 public interface MainViewListener
 {
     void onClearButtonClick(JTextField[] textFields);
-    void onSaveButtonClick();
-    void onDeleteButtonClick();
-    void onPrintButtonClick();
+    void onSaveButtonClick(JTextField[] textFields);
+    void onDeleteButtonClick(JTextField[] textFields);
+    void onPrintButtonClick(JTable contextTable);
     void onTableFocusChange();
 }

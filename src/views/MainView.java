@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -46,12 +45,12 @@ public class MainView extends JFrame
         super();
         BorderLayout mainBorderLayout = new BorderLayout();
         mainBorderLayout.setVgap(5);
-        ArrayList<Network> lo = new ArrayList<>();
-        for(int i = 0; i < 100; i++)
-        {
-            lo.add(new Network(i, i+5,i+2,i+1,"ad","ad","ad"));
-        }
-        networkListAdapterListModel.addAll(lo);
+        //ArrayList<Network> lo = new ArrayList<>();
+        //for(int i = 0; i < 100; i++)
+        //{
+        //    lo.add(new Network(i, i+5,i+2,i+1,"ad","ad","ad"));
+        //}
+        //networkListAdapterListModel.addAll(lo);
 
         setTitle("Network Topology Manager");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -63,19 +62,7 @@ public class MainView extends JFrame
         networkTableModel.setListModel(networkListAdapterListModel);
         networkDatabaseTableView.setSelectionModel(new DefaultListSelectionModel());
         networkDatabaseTableView.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        networkDatabaseTableView.getSelectionModel().addListSelectionListener(e ->
-        {
-            if(!e.getValueIsAdjusting())
-            {
-                eastPanelTextFields[0].setText((lo.get(networkDatabaseTableView.getSelectedRow()).getId())+"");
-                eastPanelTextFields[1].setText((lo.get(networkDatabaseTableView.getSelectedRow()).getNodes())+"");
-                eastPanelTextFields[2].setText((lo.get(networkDatabaseTableView.getSelectedRow()).getHubs())+"");
-                eastPanelTextFields[3].setText((lo.get(networkDatabaseTableView.getSelectedRow()).getSwitches())+"");
-                eastPanelTextFields[4].setText((lo.get(networkDatabaseTableView.getSelectedRow()).getCountryOfOrigin()));
-                eastPanelTextFields[5].setText((lo.get(networkDatabaseTableView.getSelectedRow()).getTopologyStructure()));
-                eastPanelTextFields[6].setText((lo.get(networkDatabaseTableView.getSelectedRow()).getCurrentStatus()));
-            }
-        });
+
         add(northJPanel, BorderLayout.NORTH);
         add(eastJPanel, BorderLayout.EAST);
         add(tableScrollPane, BorderLayout.CENTER);
@@ -98,13 +85,32 @@ public class MainView extends JFrame
         northJPanel.add(nFilterJLabel, BorderLayout.WEST);
         northJPanel.add(nFilterJButton, BorderLayout.EAST);
     }
-
+    public void setNetworkListAdapterListModel(ArrayList<Network> listFromServer)
+    {
+        networkListAdapterListModel.setList(listFromServer);
+    }
     private void test()
     {
         clearFields.addActionListener(e -> agent.onClearButtonClick(eastPanelTextFields));
-        saveData.addActionListener(e -> agent.onSaveButtonClick());
-        deleteData.addActionListener(e -> agent.onDeleteButtonClick());
-        printTable.addActionListener(e -> agent.onPrintButtonClick());
+        saveData.addActionListener(e -> agent.onSaveButtonClick(eastPanelTextFields));
+        deleteData.addActionListener(e -> agent.onDeleteButtonClick(eastPanelTextFields));
+        printTable.addActionListener(e -> agent.onPrintButtonClick(networkDatabaseTableView));
+        networkDatabaseTableView.getSelectionModel().addListSelectionListener(e ->
+        {
+            if(!e.getValueIsAdjusting())
+            {
+                if(networkDatabaseTableView.getSelectedRow() != -1)
+                {
+                    eastPanelTextFields[0].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getId())+"");
+                    eastPanelTextFields[1].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getNodes())+"");
+                    eastPanelTextFields[2].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getHubs())+"");
+                    eastPanelTextFields[3].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getSwitches())+"");
+                    eastPanelTextFields[4].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getCountryOfOrigin()));
+                    eastPanelTextFields[5].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getTopologyStructure()));
+                    eastPanelTextFields[6].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getCurrentStatus()));
+                }
+            }
+        });
     }
 
     private void setupEastRegion()
@@ -118,10 +124,10 @@ public class MainView extends JFrame
 
         eastJPanel = new JPanel();
 
-        eastPanelTextFields[0].setToolTipText(toolTip);
-        eastPanelTextFields[1].setToolTipText(toolTip);
-        eastPanelTextFields[2].setToolTipText(toolTip);
-        eastPanelTextFields[3].setToolTipText(toolTip);
+        for(int i = 0; i < 4; i++)
+        {
+            eastPanelTextFields[i].setToolTipText(toolTip);
+        }
 
         nestedNorthJPanel.setLayout(verticalBoxLayout);
         nestedNorthJPanel.add(new JLabel("Network ID:"));
@@ -142,7 +148,6 @@ public class MainView extends JFrame
         nestedSouthJPanel.setLayout(new GridBagLayout());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         nestedSouthJPanel.add(clearFields, gridBagConstraints);
         gridBagConstraints.gridx++;
         nestedSouthJPanel.add(saveData, gridBagConstraints);
@@ -152,9 +157,12 @@ public class MainView extends JFrame
         nestedSouthJPanel.add(printTable, gridBagConstraints);
         eastJPanel.setLayout(mainPanelLayout);
         eastJPanel.setBorder(new EmptyBorder(0, 3, 0, 3));
-        eastJPanel.setPreferredSize(new Dimension((int)(this.getWidth()/4.5), 0));
         eastJPanel.add(nestedNorthJPanel, BorderLayout.NORTH);
         eastJPanel.add(nestedSouthJPanel, BorderLayout.SOUTH);
+    }
+    public void alertMessage(String frameTitle, String message)
+    {
+        JOptionPane.showMessageDialog(null, message.toString(), frameTitle, JOptionPane.ERROR_MESSAGE);
     }
     public void activateAgent(MainViewListener mainAgent)
     {

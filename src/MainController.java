@@ -1,4 +1,6 @@
 import controllers.MainViewController;
+import models.Connection;
+import views.IntField;
 import views.MainView;
 
 import javax.swing.*;
@@ -17,19 +19,28 @@ public class MainController
         catch (Exception e)
         {
         }
-        MainView a = new MainView();
-        new MainViewController(a);
+
+        MainView mainView = new MainView();
+        Connection clientConnection = new Connection("localhost", 64000);
+        MainViewController mainViewController = new MainViewController(mainView, clientConnection);
+
     }
 }
 /*
- try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+       try
+       {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
+            {
+               if ("Nimbus".equals(info.getName()))
+               {
+                   UIManager.setLookAndFeel(info.getClassName());
+                   UIManager.getLookAndFeelDefaults().put("ScrollBar.minimumThumbSize", new Dimension(30, 30));
+                   break;
+               }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
  */
