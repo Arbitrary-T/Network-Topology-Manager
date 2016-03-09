@@ -13,10 +13,6 @@ public class Connection
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
     private ArrayList<Network> networkArrayList = new ArrayList<>();
-    /*public enum ConnectionState
-    {
-        CONNECTED, BUSY, DISCONNECTED
-    }*/
 
     public Connection(String host, int socket)
     {
@@ -37,12 +33,12 @@ public class Connection
             e.printStackTrace();
         }
     }
-    public void setData(String command, Network selectedIndex)
+    public void setData(String command, Network userInput)
     {
         try
         {
             objectOutputStream.writeObject(command);
-            objectOutputStream.writeObject(selectedIndex);
+            objectOutputStream.writeObject(userInput);
             objectOutputStream.flush();
         }
         catch (IOException e)
@@ -56,10 +52,12 @@ public class Connection
         networkArrayList.clear();
         try
         {
-            //System.out.println((ArrayList<Network>) objectInputStream.readObject());
-            networkArrayList.addAll((ArrayList<Network>) objectInputStream.readObject());
-            //networkArrayList.addAll((ArrayList<Network>) objectInputStream.readObject());
-
+            int size = objectInputStream.readInt();
+            System.out.println(size);
+            for(int i = 0; i < size; i++)
+            {
+                networkArrayList.add((Network) objectInputStream.readObject());
+            }
             System.out.println(networkArrayList);
         }
         catch (IOException | ClassNotFoundException e)

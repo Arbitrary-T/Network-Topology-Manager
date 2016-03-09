@@ -19,41 +19,50 @@ public class ListAdapterListModel<E> extends AbstractListModel<E> {
         fireListDataChanged();
     }
 
-    public void clear() {
+    public void clear()
+    {
         this.list.clear();
         fireListDataChanged();
     }
 
-    private void fireListDataChanged() {
+    private void fireListDataChanged()
+    {
         fireContentsChanged(this, 0, Math.max(list.size() - 1, 0));
     }
 
-    public void addAll(List<E> elements) {
-        if (this.list.addAll(elements)) {
+    public void addAll(List<E> elements)
+    {
+        if (this.list.addAll(elements))
+        {
             fireIntervalAdded(elements.size());
         }
     }
 
-    protected void fireIntervalAdded(int elementCOunt) {
+    protected void fireIntervalAdded(int elementCOunt)
+    {
         int index0 = list.size() - elementCOunt;
         fireIntervalAdded(this, Math.max(0, index0),
                 Math.max(0, list.size() - 1));
     }
 
-    public List<E> getList() {
+    public List<E> getList()
+    {
         return Collections.unmodifiableList(list);
     }
 
-    public int getSize() {
+    public int getSize()
+    {
         return list.size();
     }
 
-    public E getElementAt(int index) {
+    public E getElementAt(int index)
+    {
         E elementAt = list.get(index);
         return elementAt;
     }
 
-    public int indexOf(E element) {
+    public int indexOf(E element)
+    {
         return list.indexOf(element);
     }
 

@@ -11,5 +11,4 @@ public interface MainViewListener
     void onSaveButtonClick(JTextField[] textFields);
     void onDeleteButtonClick(JTextField[] textFields);
     void onPrintButtonClick(JTable contextTable);
-    void onTableFocusChange();
 }

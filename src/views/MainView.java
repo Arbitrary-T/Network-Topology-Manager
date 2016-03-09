@@ -45,12 +45,7 @@ public class MainView extends JFrame
         super();
         BorderLayout mainBorderLayout = new BorderLayout();
         mainBorderLayout.setVgap(5);
-        //ArrayList<Network> lo = new ArrayList<>();
-        //for(int i = 0; i < 100; i++)
-        //{
-        //    lo.add(new Network(i, i+5,i+2,i+1,"ad","ad","ad"));
-        //}
-        //networkListAdapterListModel.addAll(lo);
+
 
         setTitle("Network Topology Manager");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -162,7 +157,7 @@ public class MainView extends JFrame
     }
     public void alertMessage(String frameTitle, String message)
     {
-        JOptionPane.showMessageDialog(null, message.toString(), frameTitle, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, frameTitle, JOptionPane.ERROR_MESSAGE);
     }
     public void activateAgent(MainViewListener mainAgent)
     {

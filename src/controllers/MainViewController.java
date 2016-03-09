@@ -5,7 +5,6 @@ import models.MainViewListener;
 import models.Network;
 import views.IntField;
 import views.MainView;
-
 import javax.swing.*;
 import java.awt.print.PrinterException;
 
@@ -39,7 +38,7 @@ public class MainViewController implements MainViewListener
     public void onSaveButtonClick(JTextField[] textFields)
     {
         Network userInput = networkObjectParser(textFields);
-        if(clientConnection.getSocket() != null && userInput != null )
+        if(clientConnection.getSocket() != null && userInput != null)
         {
             clientConnection.setData("Add", userInput);
             mainView.setNetworkListAdapterListModel(clientConnection.getData());
@@ -50,7 +49,7 @@ public class MainViewController implements MainViewListener
     public void onDeleteButtonClick(JTextField[] textFields)
     {
         Network userInput = networkObjectParser(textFields);
-        if(clientConnection.getSocket() != null && userInput != null )
+        if(clientConnection.getSocket() != null && userInput != null)
         {
             clientConnection.setData("Delete", userInput);
             mainView.setNetworkListAdapterListModel(clientConnection.getData());
@@ -71,10 +70,6 @@ public class MainViewController implements MainViewListener
         }
     }
 
-    @Override
-    public void onTableFocusChange() {
-
-    }
     private Network networkObjectParser(JTextField[] textFields)
     {
         for(JTextField textField : textFields)
@@ -93,46 +88,3 @@ public class MainViewController implements MainViewListener
     }
 
 }
-
-/*
-    My Stash
-    //private JTextField networkIDTextField = new IntField();
-    //private JTextField numberOfNodesTextField = new IntField();
-    //private JTextField numberOfHubsTextField = new IntField();
-    //private JTextField numberOfSwitchesTextField = new IntField();
-    //private JTextField topologyStructureTextField = new JTextField();
-    //private JTextField countryTextField = new JTextField();
-    //private JTextField statusTextField = new JTextField();
-
-
-    this.addWindowStateListener(e -> agent.onWindowResize(eastJPanel));
-    WindowStateListener listener = new WindowAdapter()
-        {
-            public void windowStateChanged(WindowEvent evt)
-            {
-                //http://www.java2s.com/Code/Java/Swing-JFC/DeterminingWhenaFrameorWindowIsIconizedorMaximized.htm
-                int oldState = evt.getOldState();
-                int newState = evt.getNewState();
-
-                if ((oldState & Frame.MAXIMIZED_BOTH) == 0 && (newState & Frame.MAXIMIZED_BOTH) != 0)
-                {
-                    panelToAdjust.setPreferredSize(new Dimension((int)(evt.getComponent().getWidth()/4.5), 0));
-                }
-                else if ((oldState & Frame.MAXIMIZED_BOTH) != 0 && (newState & Frame.MAXIMIZED_BOTH) == 0)
-                {
-                    panelToAdjust.setPreferredSize(new Dimension((int)(evt.getComponent().getWidth()/4.5), 0));
-                }
-            }
-        };
-        ComponentListener listenerRei = new ComponentAdapter()
-        {
-            @Override
-            public void componentResized(ComponentEvent e)
-            {
-                super.componentResized(e);
-                panelToAdjust.setPreferredSize(new Dimension((int)(e.getComponent().getWidth()/4.5), 0));
-            }
-        };
-        mainView.addComponentListener(listenerRei);
-        mainView.addWindowStateListener(listener);
- */
