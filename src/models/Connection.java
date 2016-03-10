@@ -13,12 +13,41 @@ public class Connection
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
     private ArrayList<Network> networkArrayList = new ArrayList<>();
+    private ConnectionListener agent;
 
     public Connection(String host, int socket)
     {
         setupSocket(host, socket);
+        Thread ss = new Thread(s);
+        ss.setDaemon(true);
+        ss.start();
     }
-
+    Runnable s = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            String k;
+            while(true)
+            {
+                try
+                {
+                    if(objectInputStream != null)
+                    {
+                        if((k = (String) objectInputStream.readObject()).equals("Refresh"))
+                        {
+                            agent.notifyUpdate(getData());
+                            k = "";
+                        }
+                    }
+                }
+                catch (IOException | ClassNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     private void setupSocket(String host, int socket)
     {
@@ -76,4 +105,13 @@ public class Connection
     {
         return socketConnection;
     }
+
+    public void activateAgent(ConnectionListener mainAgent)
+    {
+        this.agent = mainAgent;
+    }
 }
+//Threads how to kill them effectively
+//In terms of the criteria where it says the program does not crash..
+//How can i enhance the program.
+//connect/disconnect

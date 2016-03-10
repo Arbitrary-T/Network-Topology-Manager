@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Connection;
+import models.ConnectionListener;
 import models.MainViewListener;
 import models.Network;
 import views.IntField;
@@ -8,11 +9,12 @@ import views.MainView;
 import javax.swing.*;
 import java.awt.print.PrinterException;
 import java.util.ArrayList;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by T on 05/03/2016.
  */
-public class MainViewController implements MainViewListener
+public class MainViewController implements MainViewListener, ConnectionListener
 {
     private MainView mainView;
     private Connection clientConnection;
@@ -22,8 +24,10 @@ public class MainViewController implements MainViewListener
         this.mainView = mainView;
         this.clientConnection = clientConnection;
         this.mainView.activateAgent(this);
+        this.clientConnection.activateAgent(this);
+
         clientConnection.setData("Refresh", null);
-        mainView.setNetworkListAdapterListModel(clientConnection.getData());
+        //mainView.setNetworkListAdapterListModel(clientConnection.getData());
     }
 
     @Override
@@ -52,7 +56,7 @@ public class MainViewController implements MainViewListener
         if(clientConnection.getSocket() != null && userInput != null)
         {
             clientConnection.setData("Add", userInput);
-            mainView.setNetworkListAdapterListModel(clientConnection.getData());
+            //mainView.setNetworkListAdapterListModel(clientConnection.getData());
         }
     }
 
@@ -63,7 +67,7 @@ public class MainViewController implements MainViewListener
         if(clientConnection.getSocket() != null && userInput != null)
         {
             clientConnection.setData("Delete", userInput);
-            mainView.setNetworkListAdapterListModel(clientConnection.getData());
+            //mainView.setNetworkListAdapterListModel(clientConnection.getData());
             onClearButtonClick(textFields);
         }
     }
@@ -98,4 +102,10 @@ public class MainViewController implements MainViewListener
         return new Network(networkID.getValue(), numberOfNodes.getValue(),numberOfHubs.getValue(),numberOfSwitches.getValue(), textFields[4].getText(),textFields[5].getText(), textFields[6].getText());
     }
 
+    @Override
+    public void notifyUpdate(ArrayList<Network> updatedList)
+    {
+        mainView.setNetworkListAdapterListModel(updatedList);
+        System.out.println(updatedList);
+    }
 }
