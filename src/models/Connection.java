@@ -67,6 +67,11 @@ public class Connection
         return networkArrayList;
     }
 
+    public ArrayList<Network> getNetworkArrayList()
+    {
+        return  networkArrayList;
+    }
+
     public Socket getSocket()
     {
         return socketConnection;

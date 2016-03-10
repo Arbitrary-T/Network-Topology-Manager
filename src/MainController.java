@@ -12,14 +12,14 @@ public class MainController
 {
     public static void main(String args[])
     {
-        /*try
+        try
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch (Exception e)
         {
-        }*/
-        try
+        }
+        /*try
         {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
             {
@@ -34,7 +34,7 @@ public class MainController
         catch (Exception e)
         {
             // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
+        }*/
         MainView mainView = new MainView();
         Connection clientConnection = new Connection("localhost", 64000);
         MainViewController mainViewController = new MainViewController(mainView, clientConnection);

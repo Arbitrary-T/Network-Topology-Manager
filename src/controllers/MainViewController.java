@@ -7,6 +7,7 @@ import views.IntField;
 import views.MainView;
 import javax.swing.*;
 import java.awt.print.PrinterException;
+import java.util.ArrayList;
 
 /**
  * Created by T on 05/03/2016.
@@ -37,7 +38,17 @@ public class MainViewController implements MainViewListener
     @Override
     public void onSaveButtonClick(JTextField[] textFields)
     {
+        ArrayList<Network> networks = clientConnection.getNetworkArrayList();
         Network userInput = networkObjectParser(textFields);
+        for(Network network:networks)
+        {
+            assert userInput != null;
+            if(userInput.getId() == network.getId())
+            {
+                clientConnection.setData("Modify", userInput);
+            }
+        }
+
         if(clientConnection.getSocket() != null && userInput != null)
         {
             clientConnection.setData("Add", userInput);
