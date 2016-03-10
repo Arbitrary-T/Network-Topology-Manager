@@ -38,33 +38,28 @@ public class MainView extends JFrame
     private ListAdapterListModel<Network> networkListAdapterListModel = new ListAdapterListModel<>();
     private JTable networkDatabaseTableView = new JTable(networkTableModel);
     private JScrollPane tableScrollPane = new JScrollPane(networkDatabaseTableView, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    ////////////////////////SOUTH MAYBE???////////////////////////////////////////////////////
+    ////////////////////////SOUTH MAYBE////////////////////////////////////////////////////
 
     public MainView()
     {
         super();
+
         BorderLayout mainBorderLayout = new BorderLayout();
         mainBorderLayout.setVgap(5);
-
-
         setTitle("Network Topology Manager");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(1100, 680));
         setLayout(mainBorderLayout);
         setLocationRelativeTo(null);
         setupNorthRegion();
+        setupCenterRegion();
         setupEastRegion();
-        networkTableModel.setListModel(networkListAdapterListModel);
-        networkDatabaseTableView.setSelectionModel(new DefaultListSelectionModel());
-        networkDatabaseTableView.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
         add(northJPanel, BorderLayout.NORTH);
         add(eastJPanel, BorderLayout.EAST);
         add(tableScrollPane, BorderLayout.CENTER);
         setVisible(true);
         pack();
-        ////networkListAdapterListModel.getList();
-        test();
+        setListeners();
     }
 
     private void setupNorthRegion()
@@ -80,32 +75,16 @@ public class MainView extends JFrame
         northJPanel.add(nFilterJLabel, BorderLayout.WEST);
         northJPanel.add(nFilterJButton, BorderLayout.EAST);
     }
+
+    public void setupCenterRegion()
+    {
+        networkTableModel.setListModel(networkListAdapterListModel);
+        networkDatabaseTableView.setSelectionModel(new DefaultListSelectionModel());
+        networkDatabaseTableView.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
     public void setNetworkListAdapterListModel(ArrayList<Network> listFromServer)
     {
         networkListAdapterListModel.setList(listFromServer);
-    }
-    private void test()
-    {
-        clearFields.addActionListener(e -> agent.onClearButtonClick(eastPanelTextFields));
-        saveData.addActionListener(e -> agent.onSaveButtonClick(eastPanelTextFields));
-        deleteData.addActionListener(e -> agent.onDeleteButtonClick(eastPanelTextFields));
-        printTable.addActionListener(e -> agent.onPrintButtonClick(networkDatabaseTableView));
-        networkDatabaseTableView.getSelectionModel().addListSelectionListener(e ->
-        {
-            if(!e.getValueIsAdjusting())
-            {
-                if(networkDatabaseTableView.getSelectedRow() != -1)
-                {
-                    eastPanelTextFields[0].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getId())+"");
-                    eastPanelTextFields[1].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getNodes())+"");
-                    eastPanelTextFields[2].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getHubs())+"");
-                    eastPanelTextFields[3].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getSwitches())+"");
-                    eastPanelTextFields[4].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getCountryOfOrigin()));
-                    eastPanelTextFields[5].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getTopologyStructure()));
-                    eastPanelTextFields[6].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getCurrentStatus()));
-                }
-            }
-        });
     }
 
     private void setupEastRegion()
@@ -155,13 +134,38 @@ public class MainView extends JFrame
         eastJPanel.add(nestedNorthJPanel, BorderLayout.NORTH);
         eastJPanel.add(nestedSouthJPanel, BorderLayout.SOUTH);
     }
+
     public void alertMessage(String frameTitle, String message)
     {
         JOptionPane.showMessageDialog(null, message, frameTitle, JOptionPane.ERROR_MESSAGE);
     }
+
+    private void setListeners()
+    {
+        clearFields.addActionListener(e -> agent.onClearButtonClick(eastPanelTextFields));
+        saveData.addActionListener(e -> agent.onSaveButtonClick(eastPanelTextFields));
+        deleteData.addActionListener(e -> agent.onDeleteButtonClick(eastPanelTextFields));
+        printTable.addActionListener(e -> agent.onPrintButtonClick(networkDatabaseTableView));
+        networkDatabaseTableView.getSelectionModel().addListSelectionListener(e ->
+        {
+            if(!e.getValueIsAdjusting())
+            {
+                if(networkDatabaseTableView.getSelectedRow() != -1)
+                {
+                    eastPanelTextFields[0].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getId())+"");
+                    eastPanelTextFields[1].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getNodes())+"");
+                    eastPanelTextFields[2].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getHubs())+"");
+                    eastPanelTextFields[3].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getSwitches())+"");
+                    eastPanelTextFields[4].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getTopologyStructure()));
+                    eastPanelTextFields[5].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getCountryOfOrigin()));
+                    eastPanelTextFields[6].setText((networkListAdapterListModel.getList().get(networkDatabaseTableView.getSelectedRow()).getCurrentStatus()));
+                }
+            }
+        });
+    }
+
     public void activateAgent(MainViewListener mainAgent)
     {
         this.agent = mainAgent;
     }
-
 }

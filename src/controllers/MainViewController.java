@@ -9,7 +9,6 @@ import views.MainView;
 import javax.swing.*;
 import java.awt.print.PrinterException;
 import java.util.ArrayList;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by T on 05/03/2016.
@@ -25,9 +24,7 @@ public class MainViewController implements MainViewListener, ConnectionListener
         this.clientConnection = clientConnection;
         this.mainView.activateAgent(this);
         this.clientConnection.activateAgent(this);
-
         clientConnection.setData("Refresh", null);
-        //mainView.setNetworkListAdapterListModel(clientConnection.getData());
     }
 
     @Override
@@ -46,17 +43,18 @@ public class MainViewController implements MainViewListener, ConnectionListener
         Network userInput = networkObjectParser(textFields);
         for(Network network:networks)
         {
-            assert userInput != null;
-            if(userInput.getId() == network.getId())
+            if (userInput != null && userInput.getId() == network.getId())
             {
-                clientConnection.setData("Modify", userInput);
+                if (clientConnection.getSocket() != null)
+                {
+                    clientConnection.setData("Modify", userInput);
+                    return;
+                }
             }
         }
-
         if(clientConnection.getSocket() != null && userInput != null)
         {
             clientConnection.setData("Add", userInput);
-            //mainView.setNetworkListAdapterListModel(clientConnection.getData());
         }
     }
 
@@ -67,7 +65,6 @@ public class MainViewController implements MainViewListener, ConnectionListener
         if(clientConnection.getSocket() != null && userInput != null)
         {
             clientConnection.setData("Delete", userInput);
-            //mainView.setNetworkListAdapterListModel(clientConnection.getData());
             onClearButtonClick(textFields);
         }
     }
@@ -106,6 +103,5 @@ public class MainViewController implements MainViewListener, ConnectionListener
     public void notifyUpdate(ArrayList<Network> updatedList)
     {
         mainView.setNetworkListAdapterListModel(updatedList);
-        System.out.println(updatedList);
     }
 }

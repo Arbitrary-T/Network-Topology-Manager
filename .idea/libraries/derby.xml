@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="derby">
-    <CLASSES>
-      <root url="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/db/lib/derby.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
   </library>

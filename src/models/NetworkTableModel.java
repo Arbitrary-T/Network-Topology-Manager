@@ -11,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
 public class NetworkTableModel extends AbstractTableModel
 {
     private ListModel<Network> listOfNetworks = new DefaultListModel<>();
-    ListModelChangeListener listModelChangeListener = new ListModelChangeListener();
+    private ListModelChangeListener listModelChangeListener = new ListModelChangeListener();
 
     public NetworkTableModel()
     {

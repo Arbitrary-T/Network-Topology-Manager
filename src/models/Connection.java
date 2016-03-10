@@ -18,36 +18,27 @@ public class Connection
     public Connection(String host, int socket)
     {
         setupSocket(host, socket);
-        Thread ss = new Thread(s);
-        ss.setDaemon(true);
-        ss.start();
-    }
-    Runnable s = new Runnable()
-    {
-        @Override
-        public void run()
+        Thread pollUpdates = new Thread(()->
         {
-            String k;
             while(true)
             {
                 try
                 {
-                    if(objectInputStream != null)
+                    assert objectInputStream != null;
+                    if(objectInputStream.readObject().equals("Refresh"))
                     {
-                        if((k = (String) objectInputStream.readObject()).equals("Refresh"))
-                        {
-                            agent.notifyUpdate(getData());
-                            k = "";
-                        }
+                        agent.notifyUpdate(getData());
                     }
                 }
-                catch (IOException | ClassNotFoundException e)
+                catch(IOException | ClassNotFoundException e)
                 {
                     e.printStackTrace();
+                    return;
                 }
-            }
-        }
-    };
+        }});
+        pollUpdates.setDaemon(true);
+        pollUpdates.start();
+    }
 
     private void setupSocket(String host, int socket)
     {
@@ -62,6 +53,7 @@ public class Connection
             e.printStackTrace();
         }
     }
+
     public void setData(String command, Network userInput)
     {
         try
@@ -111,7 +103,3 @@ public class Connection
         this.agent = mainAgent;
     }
 }
-//Threads how to kill them effectively
-//In terms of the criteria where it says the program does not crash..
-//How can i enhance the program.
-//connect/disconnect
