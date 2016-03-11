@@ -82,6 +82,20 @@ public class MainViewController implements MainViewListener, ConnectionListener
         }
     }
 
+    @Override
+    public void onFilterButtonClick(String query)
+    {
+        if(query.matches("^[1-7]:[a-zA-Z0-9]+"))
+        {
+            System.out.println("Matches");
+            System.out.println(query.substring(2, query.length()));
+        }
+        else
+        {
+            System.out.println("Does not match");
+        }
+    }
+
     private Network networkObjectParser(JTextField[] textFields)
     {
         for(JTextField textField : textFields)

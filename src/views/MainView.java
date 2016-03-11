@@ -6,6 +6,7 @@ import models.Network;
 import models.NetworkTableModel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class MainView extends JFrame
         JLabel nFilterJLabel = new JLabel("Filter Database:");
         nFilterJLabel.setBorder(new EmptyBorder(3, 3, 3, 3));
         nFilterJButton.setPreferredSize(new Dimension(100, 25));
+        nFilterTextField.setToolTipText("Filter must match this pattern column digit:query for example 7:Active");
 
         northJPanel = new JPanel();
         northJPanel.setLayout(new BorderLayout());
@@ -82,6 +84,8 @@ public class MainView extends JFrame
         networkDatabaseTableView.getTableHeader().setReorderingAllowed(false);
         networkDatabaseTableView.setSelectionModel(new DefaultListSelectionModel());
         networkDatabaseTableView.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        networkDatabaseTableView.setRowSorter(new TableRowSorter<>(networkTableModel));
+
     }
 
     private void setupEastRegion()
@@ -134,6 +138,7 @@ public class MainView extends JFrame
 
     private void setupListeners()
     {
+        nFilterJButton.addActionListener(e -> agent.onFilterButtonClick(nFilterTextField.getText()));
         clearFields.addActionListener(e -> agent.onClearButtonClick(eastPanelTextFields));
         saveData.addActionListener(e -> agent.onSaveButtonClick(eastPanelTextFields));
         deleteData.addActionListener(e -> agent.onDeleteButtonClick(eastPanelTextFields));
