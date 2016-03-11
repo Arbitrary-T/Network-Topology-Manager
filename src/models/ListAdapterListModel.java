@@ -9,7 +9,8 @@ import java.util.List;
  * Created by T on 04/03/2016.
  */
 
-public class ListAdapterListModel<E> extends AbstractListModel<E> {
+public class ListAdapterListModel<E> extends AbstractListModel<E>
+{
 
     private List<E> list = new ArrayList<E>();
 

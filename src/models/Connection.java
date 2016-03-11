@@ -18,7 +18,7 @@ public class Connection
     public Connection(String host, int socket)
     {
         setupSocket(host, socket);
-        Thread pollUpdates = new Thread(()->
+        Thread pollingThread = new Thread(()->
         {
             while(true)
             {
@@ -32,12 +32,20 @@ public class Connection
                 }
                 catch(IOException | ClassNotFoundException e)
                 {
+                    try
+                    {
+                        socketConnection.close();
+                    }
+                    catch (IOException e1)
+                    {
+                        e1.printStackTrace();
+                    }
                     e.printStackTrace();
                     return;
                 }
         }});
-        pollUpdates.setDaemon(true);
-        pollUpdates.start();
+        pollingThread.setDaemon(true);
+        pollingThread.start();
     }
 
     private void setupSocket(String host, int socket)

@@ -4,11 +4,10 @@ import models.ListAdapterListModel;
 import models.MainViewListener;
 import models.Network;
 import models.NetworkTableModel;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -43,9 +42,10 @@ public class MainView extends JFrame
     public MainView()
     {
         super();
-
         BorderLayout mainBorderLayout = new BorderLayout();
         mainBorderLayout.setVgap(5);
+
+        setIconImage(resourceToImage("/resources/application_icon.png"));
         setTitle("Network Topology Manager");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(1100, 680));
@@ -59,7 +59,7 @@ public class MainView extends JFrame
         add(tableScrollPane, BorderLayout.CENTER);
         setVisible(true);
         pack();
-        setListeners();
+        setupListeners();
     }
 
     private void setupNorthRegion()
@@ -79,12 +79,9 @@ public class MainView extends JFrame
     public void setupCenterRegion()
     {
         networkTableModel.setListModel(networkListAdapterListModel);
+        networkDatabaseTableView.getTableHeader().setReorderingAllowed(false);
         networkDatabaseTableView.setSelectionModel(new DefaultListSelectionModel());
         networkDatabaseTableView.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    }
-    public void setNetworkListAdapterListModel(ArrayList<Network> listFromServer)
-    {
-        networkListAdapterListModel.setList(listFromServer);
     }
 
     private void setupEastRegion()
@@ -135,12 +132,7 @@ public class MainView extends JFrame
         eastJPanel.add(nestedSouthJPanel, BorderLayout.SOUTH);
     }
 
-    public void alertMessage(String frameTitle, String message)
-    {
-        JOptionPane.showMessageDialog(null, message, frameTitle, JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void setListeners()
+    private void setupListeners()
     {
         clearFields.addActionListener(e -> agent.onClearButtonClick(eastPanelTextFields));
         saveData.addActionListener(e -> agent.onSaveButtonClick(eastPanelTextFields));
@@ -162,6 +154,22 @@ public class MainView extends JFrame
                 }
             }
         });
+    }
+
+    public void setNetworkListAdapterListModel(ArrayList<Network> listFromServer)
+    {
+        networkListAdapterListModel.setList(listFromServer);
+    }
+
+    public void alertMessage(String frameTitle, String message)
+    {
+        JOptionPane.showMessageDialog(null, message, frameTitle, JOptionPane.ERROR_MESSAGE);
+    }
+
+    public Image resourceToImage(String path)
+    {
+        URL url = getClass().getResource(path);
+        return  Toolkit.getDefaultToolkit().getImage(url);
     }
 
     public void activateAgent(MainViewListener mainAgent)
