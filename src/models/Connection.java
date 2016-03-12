@@ -24,17 +24,22 @@ public class Connection
             {
                 try
                 {
-                    assert objectInputStream != null;
-                    if(objectInputStream.readObject().equals("Refresh"))
+                    if(objectInputStream != null)
                     {
-                        agent.notifyUpdate(getData());
+                        if(objectInputStream.readObject().equals("Refresh"))
+                        {
+                            agent.notifyUpdate(getData());
+                        }
                     }
                 }
                 catch(IOException | ClassNotFoundException e)
                 {
                     try
                     {
-                        socketConnection.close();
+                        if(socketConnection != null)
+                        {
+                            socketConnection.close();
+                        }
                     }
                     catch (IOException e1)
                     {
@@ -66,9 +71,12 @@ public class Connection
     {
         try
         {
-            objectOutputStream.writeObject(command);
-            objectOutputStream.writeObject(userInput);
-            objectOutputStream.flush();
+            if(objectOutputStream != null)
+            {
+                objectOutputStream.writeObject(command);
+                objectOutputStream.writeObject(userInput);
+                objectOutputStream.flush();
+            }
         }
         catch (IOException e)
         {
@@ -82,7 +90,6 @@ public class Connection
         try
         {
             int size = objectInputStream.readInt();
-            System.out.println(size);
             for(int i = 0; i < size; i++)
             {
                 networkArrayList.add((Network) objectInputStream.readObject());
