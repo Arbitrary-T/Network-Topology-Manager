@@ -13,10 +13,6 @@ public class NetworkTableModel extends AbstractTableModel
     private ListModel<Network> listOfNetworks = new DefaultListModel<>();
     private ListModelChangeListener listModelChangeListener = new ListModelChangeListener();
 
-    public NetworkTableModel()
-    {
-
-    }
     public final void setListModel(ListModel<Network> listOfNetworks)
     {
         if(this.listOfNetworks != null)
@@ -26,7 +22,7 @@ public class NetworkTableModel extends AbstractTableModel
         this.listOfNetworks = listOfNetworks;
         if (listOfNetworks != null)
         {
-            listOfNetworks.addListDataListener(listModelChangeListener);
+            this.listOfNetworks.addListDataListener(listModelChangeListener);
         }
         fireTableDataChanged();
     }

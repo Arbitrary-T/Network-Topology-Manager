@@ -48,8 +48,8 @@ public class MainViewController implements MainViewListener, ConnectionListener
     @Override
     public void onSaveButtonClick(JTextField[] textFields)
     {
-        ArrayList<Network> networks = clientConnection.getNetworkArrayList();
         Network userInput = networkObjectParser(textFields);
+        ArrayList<Network> networks = clientConnection.getNetworkArrayList();
         for(Network network:networks)
         {
             if (userInput != null && userInput.getId() == network.getId())
@@ -57,6 +57,7 @@ public class MainViewController implements MainViewListener, ConnectionListener
                 if (clientConnection.getSocket() != null)
                 {
                     clientConnection.setData("Modify", userInput);
+                    userInput = null;
                     return;
                 }
             }
@@ -122,11 +123,9 @@ public class MainViewController implements MainViewListener, ConnectionListener
         if(query.matches("^[1-4]:>\\d+"))
         {
             tableSorter.setRowFilter(setupRowFilter(RowFilter.ComparisonType.AFTER, query, 3));
-
         }
         else if(query.matches("^[1-4]:<\\d+"))
         {
-
             tableSorter.setRowFilter(setupRowFilter(RowFilter.ComparisonType.BEFORE, query, 3));
         }
         else if(query.matches("^[1-4]:\\d+"))
@@ -135,7 +134,15 @@ public class MainViewController implements MainViewListener, ConnectionListener
         }
         else if(query.matches("^[5-7]:[a-zA-Z0-9]+"))
         {
-            tableSorter.setRowFilter(RowFilter.regexFilter("^(?i)" + query.substring(2, query.length()), Integer.parseInt(query.substring(0, 1))-1));
+            try
+            {
+                tableSorter.setRowFilter(RowFilter.regexFilter("^(?i)" + query.substring(2, query.length()), Integer.parseInt(query.substring(0, 1))-1));
+            }
+            catch (NumberFormatException e)
+            {
+                //should not be needed, but just in case.
+                e.printStackTrace();
+            }
         }
         else
         {
@@ -185,8 +192,18 @@ public class MainViewController implements MainViewListener, ConnectionListener
      */
     private RowFilter setupRowFilter(RowFilter.ComparisonType comparisonType, String query, int index)
     {
-        int userInput = Integer.parseInt(query.substring(index, query.length()));
-        int columnIndex = Integer.parseInt(query.substring(0,1))-1;
+        int userInput = 0;
+        int columnIndex = 0;
+        try
+        {
+            userInput = Integer.parseInt(query.substring(index, query.length()));
+            columnIndex = Integer.parseInt(query.substring(0,1))-1;
+        }
+        catch (NumberFormatException e)
+        {
+            //Should not be needed, but just in case.
+            e.printStackTrace();
+        }
         return RowFilter.numberFilter(comparisonType, userInput, columnIndex);
     }
 

@@ -23,6 +23,5 @@ public class MainController
         MainView mainView = new MainView(); //View
         Connection clientConnection = new Connection("localhost", 13337);   //Model
         MainViewController mainViewController = new MainViewController(mainView, clientConnection); //Controller
-
     }
 }
