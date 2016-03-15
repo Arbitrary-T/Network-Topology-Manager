@@ -6,7 +6,9 @@ import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Created by T on 04/03/2016.
+ * Created by Talal Mahmood on 04/03/2016.
+ * SID 5296251
+ * Coventry University
  */
 public class NetworkTableModel extends AbstractTableModel
 {
@@ -114,20 +116,21 @@ public class NetworkTableModel extends AbstractTableModel
     private class ListModelChangeListener implements ListDataListener
     {
         @Override
-        public void intervalAdded(ListDataEvent e) {
+        public void intervalAdded(ListDataEvent e)
+        {
             fireTableDataChanged();
         }
 
         @Override
-        public void intervalRemoved(ListDataEvent e) {
+        public void intervalRemoved(ListDataEvent e)
+        {
             fireTableDataChanged();
-
         }
 
         @Override
-        public void contentsChanged(ListDataEvent e) {
+        public void contentsChanged(ListDataEvent e)
+        {
             fireTableDataChanged();
-
         }
     }
 }

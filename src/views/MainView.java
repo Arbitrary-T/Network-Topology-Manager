@@ -13,7 +13,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by arbitrary on 2/29/16.
+ * Created by Talal Mahmood on 29/02/2016.
+ * SID 5296251
+ * Coventry University
  */
 public class MainView extends JFrame
 {
@@ -23,7 +25,6 @@ public class MainView extends JFrame
     /////////////////////////NORTH///////////////////////////////////
     private JPanel northJPanel;
     private JTextField nFilterTextField = new JTextField();
-    private JButton nFilterJButton = new JButton("Filter");
 
     ///////////////////////EAST////////////////////////////////////////////////////////////////////
     private JPanel eastJPanel;
@@ -70,7 +71,6 @@ public class MainView extends JFrame
     {
         JLabel nFilterJLabel = new JLabel("Filter Database:");
         nFilterJLabel.setBorder(new EmptyBorder(3, 3, 3, 3));
-        nFilterJButton.setPreferredSize(new Dimension(100, 25));
         nFilterTextField.setToolTipText("Filter must match this pattern column#:query for example 7:Active or 2:>50");
 
         northJPanel = new JPanel();
@@ -101,12 +101,12 @@ public class MainView extends JFrame
         eastJPanel = new JPanel();
         nestedNorthJPanel.setLayout(verticalBoxLayout);
 
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 7; i++)
         {
-            eastPanelTextFields[i].setToolTipText(toolTip);
-        }
-        for(int i =0; i < 7; i++)
-        {
+            if(i < 4)
+            {
+                eastPanelTextFields[i].setToolTipText(toolTip);
+            }
             nestedNorthJPanel.add(new JLabel(eastPanelLabels[i]));
             nestedNorthJPanel.add(eastPanelTextFields[i]);
         }

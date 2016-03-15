@@ -4,7 +4,13 @@ import javax.swing.*;
 import javax.swing.table.TableModel;
 
 /**
- * Created by T on 04/03/2016.
+ * Created by Talal Mahmood on 04/03/2016.
+ * SID 5296251
+ * Coventry University
+ */
+
+/**
+ * Interface between MainView, and the MainViewController for the actions performed.
  */
 public interface MainViewListener
 {

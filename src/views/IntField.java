@@ -3,8 +3,11 @@ package views;
 import javax.swing.*;
 import javax.swing.text.*;
 
+
 /**
- * Created by T on 03/03/2016.
+ * Created by Talal Mahmood on 03/03/2016.
+ * SID 5296251
+ * Coventry University
  */
 public class IntField extends JTextField
 {
@@ -18,6 +21,10 @@ public class IntField extends JTextField
         return new IntTextDocument();
     }
 
+    /**
+     * Checks whether the integer is valid
+     * @return return true if the integer is valid.
+     */
     public boolean isValidInt()
     {
         try
@@ -31,6 +38,10 @@ public class IntField extends JTextField
         }
     }
 
+    /**
+     * Converts text to an integer
+     * @return the integer value inputted by the user, if its not valid (should not happen) returns -1
+     */
     public int getValue()
     {
         try
@@ -44,6 +55,13 @@ public class IntField extends JTextField
     }
     class IntTextDocument extends PlainDocument
     {
+        /**
+         * Inserts content into a document, allows for integers only.
+         * @param offs the starting offset &gt;= 0
+         * @param str the string to insert; ignoring characters
+         * @param attributeSet the attributes for the inserted content
+         * @throws BadLocationException
+         */
         public void insertString(int offs, String str, AttributeSet attributeSet) throws BadLocationException
         {
             if(str == null)

@@ -5,7 +5,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * Created by T on 05/03/2016.
+ * Created by Talal Mahmood on 05/03/2016.
+ * SID 5296251
+ * Coventry University
  */
 public class Connection
 {
@@ -15,9 +17,15 @@ public class Connection
     private ArrayList<Network> networkArrayList = new ArrayList<>();
     private ConnectionListener agent;
 
+    /**
+     * Connection model, responsible for communicating with the server.
+     * @param host The host (server) address.
+     * @param socket The socket number whereby the communication between the server and client occurs.
+     */
     public Connection(String host, int socket)
     {
         setupSocket(host, socket);
+        //Thread that mimics polling by checking the input stream and identifying any updates from the server.
         Thread pollingThread = new Thread(()->
         {
             while(true)
@@ -48,11 +56,17 @@ public class Connection
                     e.printStackTrace();
                     return;
                 }
-        }});
-        pollingThread.setDaemon(true);
+            }
+        });
+        pollingThread.setDaemon(true);  //Thread bound to main process, dies when process ends.
         pollingThread.start();
     }
 
+    /**
+     * Method to initiate communication with the server.
+     * @param host The host (server address)
+     * @param socket The socket number whereby the communication between the server and client occurs.
+     */
     private void setupSocket(String host, int socket)
     {
         try
@@ -67,6 +81,11 @@ public class Connection
         }
     }
 
+    /**
+     * Sends a command and a Network object to the server
+     * @param command The command to be sent, "Add", "Delete", Modify or "Refresh"
+     * @param userInput The Network object to be sent, could be null with the "Refresh" command.
+     */
     public void setData(String command, Network userInput)
     {
         try
@@ -84,6 +103,10 @@ public class Connection
         }
     }
 
+    /**
+     * Method that receives, and parses data from the server.
+     * @return Updated ArrayList<Network> from server.
+     */
     public ArrayList<Network> getData()
     {
         networkArrayList.clear();
@@ -103,16 +126,28 @@ public class Connection
         return networkArrayList;
     }
 
+    /**
+     * Accessor method for the networkArrayList
+     * @return ArrayList<Network> from this class.
+     */
     public ArrayList<Network> getNetworkArrayList()
     {
         return  networkArrayList;
     }
 
+    /**
+     * Accessor method for the socketConnection
+     * @return Socket from this class.
+     */
     public Socket getSocket()
     {
         return socketConnection;
     }
 
+    /**
+     * Method to initiate contract between MainViewController and Connection class.
+     * @param mainAgent The reference from the MainViewController
+     */
     public void activateAgent(ConnectionListener mainAgent)
     {
         this.agent = mainAgent;

@@ -10,7 +10,9 @@ import java.awt.print.PrinterException;
 import java.util.ArrayList;
 
 /**
- * Created by T on 05/03/2016.
+ * Created by Talal Mahmood on 05/03/2016.
+ * SID 5296251
+ * Coventry University
  */
 
 public class MainViewController implements MainViewListener, ConnectionListener
@@ -18,18 +20,24 @@ public class MainViewController implements MainViewListener, ConnectionListener
     private MainView mainView;
     private Connection clientConnection;
 
-    public MainViewController(MainView mainView, Connection clientConnection)    //model as well
+    /**
+     * The Controller class, responsible for aggregating data from the model, and providing it to the view.
+     * @param mainView MainView reference, the view to be controlled.
+     * @param clientConnection Connection reference, the model that provides the data.
+     */
+    public MainViewController(MainView mainView, Connection clientConnection)
     {
+        //Initialise variables, and activate agents (listeners).
         this.mainView = mainView;
         this.clientConnection = clientConnection;
         this.mainView.activateAgent(this);
         this.clientConnection.activateAgent(this);
-        clientConnection.setData("Refresh", null);
+        clientConnection.setData("Refresh", null); //Communicate with server in order to send the latest database.
     }
 
     /**
      * Invoked when the clear button is clicked, the method simply clears the JTextField(s).
-     * @param textFields
+     * @param textFields representing the user's input
      */
     @Override
     public void onClearButtonClick(JTextField[] textFields)
@@ -43,7 +51,7 @@ public class MainViewController implements MainViewListener, ConnectionListener
     /**
      * Invoked when the save button is clicked, the method converts the user's input to a Network object through the
      * networkObjectParser method and sends the object to the server either to add or modify the data.
-     * @param textFields
+     * @param textFields representing the user's input
      */
     @Override
     public void onSaveButtonClick(JTextField[] textFields)
@@ -71,7 +79,7 @@ public class MainViewController implements MainViewListener, ConnectionListener
     /**
      * Invoked when the delete button is clicked, the method converts the user's input into a Network object via the
      * networkObjectParser method and sends the object to the server in order to delete it.
-     * @param textFields
+     * @param textFields representing the user's input
      */
     @Override
     public void onDeleteButtonClick(JTextField[] textFields)
@@ -87,7 +95,7 @@ public class MainViewController implements MainViewListener, ConnectionListener
     /**
      * Invoked when the print button is clicked, the method checks if the Table view has any data, if so, it tries to
      * print the records, else it will display a (logical) error message to the user.
-     * @param contextTable
+     * @param contextTable representing the table, where the data to be printed is populated
      */
     @Override
     public void onPrintButtonClick(JTable contextTable)
@@ -112,8 +120,8 @@ public class MainViewController implements MainViewListener, ConnectionListener
     /**
      * Invoked when the text in the filter JTextField changes, the query is then processed in order to determine the
      * sort the table.
-     * @param query
-     * @param table
+     * @param query the user's query for example 1:>5, or 4:10 and so on...
+     * @param table representing the table, where the data to be sorted is populated
      */
     @Override
     public void onFilterTextChange(String query, JTable table)
@@ -153,9 +161,9 @@ public class MainViewController implements MainViewListener, ConnectionListener
     /**
      * Invoked when the JTable's row focus changes, the method simply loads the new values in the JTextField(s)
      * Note the use of the Table's model in order to set the correct values in case the table is filtered.
-     * @param table
-     * @param textFields
-     * @param tableModel
+     * @param table representing the table where the data is populated
+     * @param textFields  representing the user's input
+     * @param tableModel the table model where the table's data resides.
      */
     @Override
     public void onSelectedIndexChange(JTable table, JTextField[] textFields, TableModel tableModel)
@@ -175,7 +183,7 @@ public class MainViewController implements MainViewListener, ConnectionListener
      * Invoked when the thread polling the server receives a new update, the method simply replaces the data in the
      * list model with the updated data from the server.
      *
-     * @param updatedList
+     * @param updatedList a list of networks from the server
      */
     @Override
     public void notifyUpdate(ArrayList<Network> updatedList)
@@ -185,10 +193,10 @@ public class MainViewController implements MainViewListener, ConnectionListener
 
     /**
      * A method that sets up a row filter depending on the parameters passed.
-     * @param comparisonType
-     * @param query
-     * @param index
-     * @return
+     * @param comparisonType the type of comparison in terms of the row filter
+     * @param query the user's query
+     * @param index the index of the column to be filtered
+     * @return returns a RowFilter specific to the user's query
      */
     private RowFilter setupRowFilter(RowFilter.ComparisonType comparisonType, String query, int index)
     {
@@ -209,8 +217,8 @@ public class MainViewController implements MainViewListener, ConnectionListener
 
     /**
      * A method that returns a Network object from data inputted into the JTextField(s) by the user.
-     * @param textFields
-     * @return
+     * @param textFields representing the user's input
+     * @return returns a Network object
      */
     private Network networkObjectParser(JTextField[] textFields)
     {

@@ -3,7 +3,9 @@ package models;
 import java.util.ArrayList;
 
 /**
- * Created by arbitrary on 3/10/16.
+ * Created by Talal Mahmood on 03/10/2016.
+ * SID 5296251
+ * Coventry University
  */
 public interface ConnectionListener
 {

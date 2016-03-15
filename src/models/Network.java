@@ -3,7 +3,9 @@ package models;
 import java.io.Serializable;
 
 /**
- * Created by arbitrary on 2/11/16.
+ * Created by Talal Mahmood on 11/02/2016.
+ * SID 5296251
+ * Coventry University
  */
 public class Network implements Serializable
 
