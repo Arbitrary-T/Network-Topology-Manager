@@ -53,11 +53,11 @@ public class IntField extends JTextField
             return -1;
         }
     }
-    class IntTextDocument extends PlainDocument
+    private class IntTextDocument extends PlainDocument
     {
         /**
          * Inserts content into a document, allows for integers only.
-         * @param offs the starting offset &gt;= 0
+         * @param offs the starting offset = 0
          * @param str the string to insert; ignoring characters
          * @param attributeSet the attributes for the inserted content
          * @throws BadLocationException

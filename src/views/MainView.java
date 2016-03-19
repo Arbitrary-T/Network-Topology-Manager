@@ -172,7 +172,7 @@ public class MainView extends JFrame
         JOptionPane.showMessageDialog(null, message, frameTitle, JOptionPane.ERROR_MESSAGE);
     }
 
-    public Image resourceToImage(String path)
+    private Image resourceToImage(String path)
     {
         URL url = getClass().getResource(path);
         return  Toolkit.getDefaultToolkit().getImage(url);
