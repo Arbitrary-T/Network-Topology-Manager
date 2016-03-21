@@ -42,8 +42,10 @@ public class MainView extends JFrame
     private DefaultListModel<Network> networkDefaultListModel = new DefaultListModel<>();
     private JTable networkDatabaseTableView = new JTable(networkTableModel);
     private JScrollPane tableScrollPane = new JScrollPane(networkDatabaseTableView, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    ////////////////////////SOUTH MAYBE////////////////////////////////////////////////////
 
+    /**
+     * Construct GUI
+     */
     public MainView()
     {
         super();
@@ -127,6 +129,9 @@ public class MainView extends JFrame
         eastJPanel.add(nestedSouthJPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Method that sets up the listeners and calls the appropriate method via the MainViewListener interface
+     */
     private void setupListeners()
     {
         nFilterTextField.addKeyListener(new KeyAdapter()
@@ -151,6 +156,10 @@ public class MainView extends JFrame
         });
     }
 
+    /**
+     * Method that updates the tableview, invoked when the database updates
+     * @param listFromServer
+     */
     public void setNetworkDefaultListModel(ArrayList<Network> listFromServer)
     {
         try {
@@ -167,17 +176,31 @@ public class MainView extends JFrame
         }
     }
 
+    /**
+     * Notification message
+     * @param frameTitle the title of the Dialog
+     * @param message the message of the Dialog
+     */
     public void alertMessage(String frameTitle, String message)
     {
         JOptionPane.showMessageDialog(null, message, frameTitle, JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Method used to load an image (used for app icon)
+     * @param path path of image
+     * @return
+     */
     private Image resourceToImage(String path)
     {
         URL url = getClass().getResource(path);
         return  Toolkit.getDefaultToolkit().getImage(url);
     }
 
+    /**
+     * Activate MainViewListener
+     * @param mainAgent agent on the MainViewController
+     */
     public void activateAgent(MainViewListener mainAgent)
     {
         this.agent = mainAgent;

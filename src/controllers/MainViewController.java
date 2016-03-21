@@ -148,7 +148,6 @@ public class MainViewController implements MainViewListener, ConnectionListener
             }
             catch (NumberFormatException e)
             {
-                //should not be needed, but just in case.
                 e.printStackTrace();
             }
         }
@@ -209,7 +208,6 @@ public class MainViewController implements MainViewListener, ConnectionListener
         }
         catch (NumberFormatException e)
         {
-            //Should not be needed, but just in case.
             e.printStackTrace();
         }
         return RowFilter.numberFilter(comparisonType, userInput, columnIndex);
