@@ -117,7 +117,6 @@ public class Connection
             {
                 networkArrayList.add((Network) objectInputStream.readObject());
             }
-            System.out.println(networkArrayList);
         }
         catch (IOException | ClassNotFoundException e)
         {
