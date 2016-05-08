@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * SID 5296251
  * Coventry University
  */
+
 public class Connection
 {
     private Socket socketConnection;
@@ -16,7 +17,7 @@ public class Connection
     private ObjectInputStream objectInputStream;
     private ArrayList<Network> networkArrayList = new ArrayList<>();
     private ConnectionListener agent;
-
+    private boolean stayAlive = true;
     /**
      * Connection model, responsible for communicating with the server.
      * @param host The host (server) address.
@@ -28,7 +29,7 @@ public class Connection
         //Thread that mimics polling by checking the input stream and identifying any updates from the server.
         Thread pollingThread = new Thread(()->
         {
-            while(true)
+            while(stayAlive)
             {
                 try
                 {
@@ -53,13 +54,18 @@ public class Connection
                     {
                         e1.printStackTrace();
                     }
-                    e.printStackTrace();
                     return;
                 }
             }
         });
         pollingThread.setDaemon(true);  //Thread bound to main process, dies when process ends.
         pollingThread.start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(()->
+        {
+            stayAlive = false;
+            setData("Shutdown", null);
+        }));
     }
 
     /**
@@ -107,7 +113,7 @@ public class Connection
      * Method that receives, and parses data from the server.
      * @return Updated ArrayList<Network> from server.
      */
-    public ArrayList<Network> getData()
+    private ArrayList<Network> getData()
     {
         networkArrayList.clear();
         try

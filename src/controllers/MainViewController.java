@@ -42,7 +42,7 @@ public class MainViewController implements MainViewListener, ConnectionListener
     @Override
     public void onClearButtonClick(JTextField[] textFields)
     {
-        for (JTextField textField : textFields)
+        for(JTextField textField : textFields)
         {
             textField.setText("");
         }
@@ -60,9 +60,9 @@ public class MainViewController implements MainViewListener, ConnectionListener
         ArrayList<Network> networks = clientConnection.getNetworkArrayList();
         for(Network network:networks)
         {
-            if (userInput != null && userInput.getId() == network.getId())
+            if(userInput != null && userInput.getId() == network.getId())
             {
-                if (clientConnection.getSocket() != null)
+                if(clientConnection.getSocket() != null)
                 {
                     clientConnection.setData("Modify", userInput);
                     userInput = null;
@@ -119,7 +119,7 @@ public class MainViewController implements MainViewListener, ConnectionListener
 
     /**
      * Invoked when the text in the filter JTextField changes, the query is then processed in order to determine the
-     * sort the table.
+     * sort to be applied to the table.
      * @param query the user's query for example 1:>5, or 4:10 and so on...
      * @param table representing the table, where the data to be sorted is populated
      */

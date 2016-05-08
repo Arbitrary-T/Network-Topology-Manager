@@ -83,7 +83,7 @@ public class MainView extends JFrame
         northJPanel.add(Box.createHorizontalStrut(238), BorderLayout.EAST);
     }
 
-    public void setupCenterRegion()
+    private void setupCenterRegion()
     {
         networkTableModel.setListModel(networkDefaultListModel);
         networkDatabaseTableView.getTableHeader().setReorderingAllowed(false);
@@ -157,21 +157,24 @@ public class MainView extends JFrame
     }
 
     /**
-     * Method that updates the tableview, invoked when the database updates
+     * Method that updates the TableView, invoked when the database updates
      * @param listFromServer
      */
     public void setNetworkDefaultListModel(ArrayList<Network> listFromServer)
     {
-        try {
+        try
+        {
             SwingUtilities.invokeAndWait(()->
             {
                 networkDefaultListModel.clear();
-                for (Network aListFromServer : listFromServer)
+                for (Network network : listFromServer)
                 {
-                    networkDefaultListModel.addElement(aListFromServer);
+                    networkDefaultListModel.addElement(network);
                 }
             });
-        } catch (InterruptedException | InvocationTargetException e) {
+        }
+        catch (InterruptedException | InvocationTargetException e)
+        {
             e.printStackTrace();
         }
     }

@@ -3,6 +3,7 @@ import models.Connection;
 import views.MainView;
 
 import javax.swing.*;
+import java.io.IOException;
 
 /**
  * Created by Talal Mahmood on 03/03/2016.
@@ -18,7 +19,6 @@ public class MainController
      */
     public static void main(String args[])
     {
-
         try
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
